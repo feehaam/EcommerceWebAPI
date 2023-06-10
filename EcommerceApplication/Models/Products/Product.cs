@@ -10,6 +10,7 @@ namespace EcommerceApplication.Models.Products
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public float Price { get; set; }
+        public DateTime Created { get; set; }
         public Category ? Category { get; set; }
         public ICollection<Tag> ? Tags { get; set; }
         public string? PhotosURL1 { get; set; }
