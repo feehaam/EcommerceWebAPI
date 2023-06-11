@@ -1,4 +1,6 @@
 using EcommerceApplication.DBContext;
+using EcommerceApplication.IRepository.Users;
+using EcommerceApplication.Repository.Users;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +17,10 @@ builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+// Adding interfaces
+builder.Services.AddScoped<IUserRepoBasics, UserRepoBasics>();
+builder.Services.AddScoped<IUserRepoCRUD, UserRepoCRUD>();
 
 var app = builder.Build();
 
