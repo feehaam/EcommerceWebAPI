@@ -1,6 +1,7 @@
 ﻿using EcommerceApplication.DBContext;
 using EcommerceApplication.IRepository.Products;
 using EcommerceApplication.Models.Products;
+using Microsoft.EntityFrameworkCore;
 
 namespace EcommerceApplication.Repository.Products
 {
@@ -31,6 +32,14 @@ namespace EcommerceApplication.Repository.Products
             try
             {
                 Category category = Read(categoryId);
+                if (category == null)
+                {
+                    return false;
+                }
+                foreach (Tag tag in category.Tags)
+                {
+                    context.Tags.Remove(tag);
+                }
                 context.Categories.Remove(category);
                 return context.SaveChanges() > 0 ? true : false;
             }
@@ -42,17 +51,23 @@ namespace EcommerceApplication.Repository.Products
 
         public ICollection<Category> GetAll()
         {
-            return context.Categories.ToList();
+            return context.Categories
+                .Include(c => c.Tags)
+                .ToList();
         }
 
         public Category Read(int categoryId)
         {
-            return context.Categories.FirstOrDefault(cat => cat.CategoryId == categoryId);
+            return context.Categories
+                .Include(c => c.Tags)
+                .FirstOrDefault(cat => cat.CategoryId == categoryId);
         }
 
         public Category Read(string categoryName)
         {
-            return context.Categories.FirstOrDefault(cat => cat.Name == categoryName);
+            return context.Categories
+                .Include(c => c.Tags)
+                .FirstOrDefault(cat => cat.Name == categoryName);
         }
 
         public bool Update(int userId, Category category)
@@ -66,6 +81,25 @@ namespace EcommerceApplication.Repository.Products
             {
                 return false;
             }
+        }
+        public ICollection<Tag> GetTags(int categoryId)
+        {
+            Category cat;
+            try
+            {
+                cat = context.Categories
+                .Include(c => c.Tags)
+                .FirstOrDefault(c => c.CategoryId == categoryId);
+            }
+            catch(Exception ex)
+            {
+                return new List<Tag>();
+            }
+            if (cat != null)
+            {
+                return cat.Tags;
+            }
+            return new List<Tag>();
         }
     }
 }

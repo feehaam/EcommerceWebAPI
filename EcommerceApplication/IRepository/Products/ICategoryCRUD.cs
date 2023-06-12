@@ -10,5 +10,6 @@ namespace EcommerceApplication.IRepository.Products
         bool Update(int userId, Category category);
         bool Delete(int userId, int categoryId);
         ICollection<Category> GetAll();
+        ICollection<Tag> GetTags(int categoryId);
     }
 }

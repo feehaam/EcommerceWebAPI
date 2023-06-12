@@ -28,11 +28,11 @@ namespace EcommerceApplication.Controllers.Products
             }
         }
         [HttpPost("/tags/create")]
-        public IActionResult CreateTag(int UserId, Tag Tag)
+        public IActionResult CreateTag(int UserId, int CategoryId, Tag Tag)
         {
             try
             {
-                bool result = Tags.Create(UserId, Tag);
+                bool result = Tags.Create(UserId, CategoryId, Tag);
                 if(result)
                 {
                     return Ok("Successfully created.");

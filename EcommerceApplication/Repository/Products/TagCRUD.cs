@@ -7,14 +7,25 @@ namespace EcommerceApplication.Repository.Products
     public class TagCRUD : ITagCRUD
     {
         private readonly DataContext context;
-        public TagCRUD(DataContext context)
+        private readonly ICategoryCRUD categoryCRUD;
+        public TagCRUD(DataContext context, ICategoryCRUD categoryCRUD)
         {
             this.context = context;
+            this.categoryCRUD = categoryCRUD;
         }
 
-        public bool Create(int userId, Tag tag)
+        public bool Create(int userId, int catId, Tag tag)
         {
-            context.Tags.Add(tag);
+            Category category = categoryCRUD.Read(catId);
+            if(category == null)
+            {
+                return false;
+            }
+            if(category.Tags == null)
+            {
+                category.Tags = new List<Tag>();
+            }
+            category.Tags.Add(tag);
             return context.SaveChanges() > 0 ? true : false;
         }
 

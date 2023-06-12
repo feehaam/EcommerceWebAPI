@@ -67,6 +67,11 @@ namespace EcommerceApplication.Controllers.Products
         {
             return Ok(categories.GetAll());
         }
+        [HttpGet("/category/tags/{CategoryId}")]
+        public IActionResult GetTags(int CategoryId)
+        {
+            return Ok(categories.GetTags(CategoryId));
+        }
 
     }
 }
