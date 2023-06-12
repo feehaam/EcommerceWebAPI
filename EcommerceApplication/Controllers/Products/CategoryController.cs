@@ -47,7 +47,7 @@ namespace EcommerceApplication.Controllers.Products
         [HttpPut("/category/update")]
         public IActionResult Update(int UserId, Category category)
         {
-            if (categories.Create(UserId, category))
+            if (categories.Update(UserId, category))
             {
                 return Ok("Update successfull.");
             }

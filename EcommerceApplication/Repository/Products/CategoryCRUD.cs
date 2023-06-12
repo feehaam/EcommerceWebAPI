@@ -13,15 +13,31 @@ namespace EcommerceApplication.Repository.Products
 
         public bool Create(int userId, Category category)
         {
-            context.Categories.Add(category);
-            return context.SaveChanges() > 0 ? true : false;
+            try
+            {
+                Category cat = Read(category.Name);
+                if (cat != null) return false;
+                context.Categories.Add(category);
+                return context.SaveChanges() > 0 ? true : false;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
         }
 
         public bool Delete(int userId, int categoryId)
         {
-            Category category = Read(categoryId);
-            context.Categories.Remove(category);
-            return context.SaveChanges() > 0 ? true : false;
+            try
+            {
+                Category category = Read(categoryId);
+                context.Categories.Remove(category);
+                return context.SaveChanges() > 0 ? true : false;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
         }
 
         public ICollection<Category> GetAll()
@@ -41,8 +57,15 @@ namespace EcommerceApplication.Repository.Products
 
         public bool Update(int userId, Category category)
         {
-            context.Categories.Update(category);
-            return context.SaveChanges() > 0 ? true : false;
+            try
+            {
+                context.Categories.Update(category);
+                return context.SaveChanges() > 0 ? true : false;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
         }
     }
 }
