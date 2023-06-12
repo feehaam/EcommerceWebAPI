@@ -16,7 +16,7 @@ namespace EcommerceApplication.Repository.Users
         {
             try
             {
-                _context.Add(User);
+                _context.Users.Add(User);
                 return _context.SaveChanges() > 0 ? true : false;
             }
             catch {
@@ -52,7 +52,7 @@ namespace EcommerceApplication.Repository.Users
         {
             try
             {
-                _context.Update(User);
+                _context.Users.Update(User);
                 return _context.SaveChanges() > 0 ? true : false;
             }
             catch
@@ -64,7 +64,7 @@ namespace EcommerceApplication.Repository.Users
         {
             try
             {
-                _context.Remove(User);
+                _context.Users.Remove(User);
                 return _context.SaveChanges() > 0 ? true : false;
             }
             catch

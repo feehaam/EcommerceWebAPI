@@ -12,8 +12,18 @@ namespace EcommerceApplication.DBContext
         {
 
         }
-        public DbSet<User> Users { get; set; }
+
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<PaymentStatus> PaymentStatuses { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<Statistics> Statistics { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Address> Addresses { get; set; }
 
         override protected void OnModelCreating(ModelBuilder modelBuilder)
         {
