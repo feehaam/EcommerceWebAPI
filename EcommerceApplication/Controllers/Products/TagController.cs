@@ -20,7 +20,8 @@ namespace EcommerceApplication.Controllers.Products
         {
             try
             {
-                return Ok(Tags.GetAll());
+                ICollection<Tag> result = Tags.GetAll();
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -65,6 +66,46 @@ namespace EcommerceApplication.Controllers.Products
             catch (Exception ex)
             {
                 return BadRequest("Error parsing the tag - " + ex.Message);
+            }
+        }
+        [HttpPut("/tags/update")]
+        public IActionResult Update(int UserId, Tag Tag)
+        {
+            try
+            {
+                bool result = Tags.Update(UserId, Tag);
+                if (result)
+                {
+                    return Ok("Updated succesfully.");
+                }
+                else
+                {
+                    return StatusCode(500, "Error in update, possible reason: invalid input.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Server error updating the tag - " + ex.Message);
+            }
+        }
+        [HttpDelete("/tags/delete")]
+        public IActionResult Delete(int UserId, int TagId)
+        {
+            try
+            {
+                bool result = Tags.Delete(UserId, TagId);
+                if (result)
+                {
+                    return Ok("Deleted succesfully.");
+                }
+                else
+                {
+                    return StatusCode(500, "Error in delete, possible reason: invalid input.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Server error deleting the tag - " + ex.Message);
             }
         }
     }

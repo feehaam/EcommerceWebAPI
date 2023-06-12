@@ -49,14 +49,21 @@ namespace EcommerceApplication.Repository.Products
             context.Tags.Update(tag);
             return context.SaveChanges() > 0 ? true : false;
         }
-        public bool Delete(int userId, Tag tag)
+        public bool Delete(int userId, int tagId)
         {
+            Tag tag = Read(tagId);
+            if(tag == null)
+            {
+                return false;
+            }
             context.Tags.Remove(tag);
             return context.SaveChanges() > 0 ? true : false;
         }
         public ICollection<Tag> GetAll()
         {
-            return context.Tags.ToList();
+            ICollection<Tag> result = context.Tags.ToList();
+
+            return result;
         }
     }
 }

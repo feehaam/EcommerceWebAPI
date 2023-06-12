@@ -26,7 +26,9 @@ builder.Services.AddDbContext<DataContext>(options =>
 builder.Services.AddScoped<IUserRepoBasics, UserRepoBasics>();
 builder.Services.AddScoped<IUserRepoCRUD, UserRepoCRUD>();
 builder.Services.AddScoped<ICategoryCRUD, CategoryCRUD>();
+builder.Services.AddScoped<ITagCRUD, TagCRUD>();
 builder.Services.AddScoped<ICartRepoCRUD, CartRepoCRUD>();
+
 
 var app = builder.Build();
 
