@@ -40,6 +40,7 @@ namespace EcommerceApplication.Repository.Products
                 .Include(p => p.Tags)
                 .Include(p => p.Variants)
                 .Include(p => p.Statistics)
+                    .ThenInclude(s => s.Reviews)
                 .FirstOrDefault(p => p.ProductId == productId);
 
             

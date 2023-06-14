@@ -29,6 +29,7 @@ builder.Services.AddScoped<ICategoryCRUD, CategoryCRUD>();
 builder.Services.AddScoped<ITagCRUD, TagCRUD>();
 builder.Services.AddScoped<ICartRepoCRUD, CartRepoCRUD>();
 builder.Services.AddScoped<IProductRepoCRUD, ProductRepoCRUD>();
+builder.Services.AddScoped<IProductRepoStatistics, ProductRepoStatistics>();
 
 
 var app = builder.Build();
