@@ -24,6 +24,7 @@ namespace EcommerceApplication.Repository.Products
         {
             try
             {
+                DeleteTags(productId);
                 context.Remove(Read(productId));
                 return context.SaveChanges() > 0 ? true : false;
             }
@@ -49,6 +50,7 @@ namespace EcommerceApplication.Repository.Products
         {
             try
             {
+                DeleteTags(Product.ProductId);
                 context.Products.Update(Product);
                 return context.SaveChanges() > 0 ? true : false;
             }
@@ -59,7 +61,17 @@ namespace EcommerceApplication.Repository.Products
         }
         public void DeleteTags(int productId)
         {
-            //List<ProductTag> tags = context.ProductTags.Where(pt => pt.Pro)
+            List<ProductTag> tags = context.ProductTags.Where(pt => pt.ProductId == null || pt.ProductId == productId).ToList();
+            foreach (ProductTag tag in tags)
+            {
+                context.ProductTags.Remove(tag);
+            }
+            context.SaveChanges();
+        }
+
+        void IProductRepoCRUD.DeleteTags(int productId)
+        {
+            throw new NotImplementedException();
         }
     }
 }
