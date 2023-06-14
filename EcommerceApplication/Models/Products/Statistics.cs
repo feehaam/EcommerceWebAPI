@@ -16,5 +16,12 @@ namespace EcommerceApplication.Models.Products
         public int ProductId { get; set; }
         public virtual Product? Product { get; set; }
 
+        public Statistics()
+        {
+            Favorites = 0;
+            SellCount = 0;
+            ReviewScore = 0;
+            this.ProductId = ProductId;
+        }
     }
 }
