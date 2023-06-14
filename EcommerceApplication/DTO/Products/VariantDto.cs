@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EcommerceApplication.DTO.Products
 {
-    public class CreateProductVariantDto
+    public class VariantDto
     {
         public string Title { get; set; } = string.Empty;
         public string PhotoURL { get; set; } = string.Empty;

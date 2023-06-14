@@ -10,9 +10,12 @@ namespace EcommerceApplication.Controllers.Products
     [ApiController]
     public class ProductController : ControllerBase
     {
+        // necessary objects
         private readonly IProductRepoCRUD products;
         private readonly ICategoryCRUD category;
         private readonly ITagCRUD tags;
+
+        // constructor 
         public ProductController(IProductRepoCRUD products, ICategoryCRUD cats, ITagCRUD tags)
         {
             this.products = products;
@@ -20,6 +23,7 @@ namespace EcommerceApplication.Controllers.Products
             this.tags = tags;
         }
 
+        // create a new product
         [HttpPost("/product/create")]
         public IActionResult CreateProduct(CreateProductDto productDto)
         {
@@ -40,7 +44,7 @@ namespace EcommerceApplication.Controllers.Products
             product.PhotosURL3 = productDto.PhotosURL3;
             product.AvailableQuantity = productDto.AvailableQuantity;
             product.Variants = new List<Variant>();
-            foreach(CreateProductVariantDto variantDto in productDto.Variants)
+            foreach(VariantDto variantDto in productDto.Variants)
             {
                 product.Variants.Add(new Variant
                 {
@@ -58,10 +62,12 @@ namespace EcommerceApplication.Controllers.Products
             return BadRequest("Failed to create new product");
         }
 
+
+        // get a product from product Id
         [HttpGet("/product/{productId}")]
         public IActionResult GetProduct(int productId)
         {
-            Product product = products.Read(productId);
+            ReadProductDto product = products.Read(productId);
             if(product == null || product.ProductId == -1)
             {
                 return NotFound();

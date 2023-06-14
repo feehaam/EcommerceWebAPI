@@ -14,7 +14,7 @@ namespace EcommerceApplication.DTO.Products
         public string? PhotosURL2 { get; set; }
         public string? PhotosURL3 { get; set; }
         public int AvailableQuantity { get; set; }
-        public ICollection<CreateProductVariantDto>? Variants { get; set; }
+        public ICollection<VariantDto>? Variants { get; set; }
     }
 }
 

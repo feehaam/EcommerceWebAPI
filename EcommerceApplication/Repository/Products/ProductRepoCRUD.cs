@@ -1,6 +1,8 @@
 ﻿using EcommerceApplication.DBContext;
+using EcommerceApplication.DTO.Products;
 using EcommerceApplication.IRepository.Products;
 using EcommerceApplication.Models.Products;
+using Microsoft.EntityFrameworkCore;
 
 namespace EcommerceApplication.Repository.Products
 {
@@ -24,17 +26,25 @@ namespace EcommerceApplication.Repository.Products
             return context.SaveChanges() > 0 ? true : false;
         }
 
-        public Product Read(int productId)
+        public ReadProductDto Read(int productId)
         {
-            Product product = context.Products.FirstOrDefault(p => p.ProductId == productId);
+            Product product = context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Tags)
+                .Include(p => p.Variants)
+                .Include(p => p.Statistics)
+                .FirstOrDefault(p => p.ProductId == productId);
+
+            ReadProductDto productDto = new ReadProductDto(product);
+
             if(product == null)
             {
-                return new Product()
+                return new ReadProductDto(product)
                 {
                     ProductId = -1
                 };
             }
-            return product;
+            return productDto;
         }
 
         public bool Update(Product Product)
