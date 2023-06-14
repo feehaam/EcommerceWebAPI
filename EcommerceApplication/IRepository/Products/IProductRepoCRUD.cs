@@ -6,7 +6,7 @@ namespace EcommerceApplication.IRepository.Products
     public interface IProductRepoCRUD
     {
         public bool Create(Product Product);
-        public ReadProductDto Read(int productId);
+        public Product Read(int productId);
         public bool Update(Product Product);
         public bool Delete(int productId);
     }

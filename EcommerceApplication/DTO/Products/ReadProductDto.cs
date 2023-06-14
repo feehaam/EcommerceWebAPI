@@ -19,6 +19,11 @@ namespace EcommerceApplication.DTO.Products
         public Statistics? Statistics { get; set; }
         public ReadProductDto(Product product)
         {
+            if (product == null)
+            {
+                ProductId = -1;
+                return;
+            }
             ProductId = product.ProductId;
             Name = product.Name;
             Description = product.Description;

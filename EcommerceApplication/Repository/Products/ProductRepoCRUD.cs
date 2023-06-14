@@ -26,7 +26,7 @@ namespace EcommerceApplication.Repository.Products
             return context.SaveChanges() > 0 ? true : false;
         }
 
-        public ReadProductDto Read(int productId)
+        public Product Read(int productId)
         {
             Product product = context.Products
                 .Include(p => p.Category)
@@ -35,16 +35,8 @@ namespace EcommerceApplication.Repository.Products
                 .Include(p => p.Statistics)
                 .FirstOrDefault(p => p.ProductId == productId);
 
-            ReadProductDto productDto = new ReadProductDto(product);
-
-            if(product == null)
-            {
-                return new ReadProductDto(product)
-                {
-                    ProductId = -1
-                };
-            }
-            return productDto;
+            
+            return product;
         }
 
         public bool Update(Product Product)

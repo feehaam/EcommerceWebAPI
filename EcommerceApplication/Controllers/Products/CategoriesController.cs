@@ -7,10 +7,10 @@ namespace EcommerceApplication.Controllers.Products
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoryController : ControllerBase
+    public class CategoriesController : ControllerBase
     {
         private readonly ICategoryCRUD categories;
-        public CategoryController(ICategoryCRUD categories)
+        public CategoriesController(ICategoryCRUD categories)
         {
             this.categories = categories;
         }

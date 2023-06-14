@@ -7,10 +7,10 @@ namespace EcommerceApplication.Controllers.Products
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TagController : ControllerBase
+    public class TagsController : ControllerBase
     {
         private readonly ITagCRUD Tags;
-        public TagController(ITagCRUD tags)
+        public TagsController(ITagCRUD tags)
         {
             Tags = tags;
         }

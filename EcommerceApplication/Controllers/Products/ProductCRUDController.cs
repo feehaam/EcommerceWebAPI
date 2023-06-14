@@ -8,7 +8,7 @@ namespace EcommerceApplication.Controllers.Products
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class ProductCRUDController : ControllerBase
     {
         // necessary objects
         private readonly IProductRepoCRUD products;
@@ -16,7 +16,7 @@ namespace EcommerceApplication.Controllers.Products
         private readonly ITagCRUD tags;
 
         // constructor 
-        public ProductController(IProductRepoCRUD products, ICategoryCRUD cats, ITagCRUD tags)
+        public ProductCRUDController(IProductRepoCRUD products, ICategoryCRUD cats, ITagCRUD tags)
         {
             this.products = products;
             this.category = cats;
@@ -34,17 +34,20 @@ namespace EcommerceApplication.Controllers.Products
             product.Created = DateTime.Now;
             product.Category = category.Read(productDto.CategoryId);
             product.Tags = new List<Tag>();
+            if(productDto.TagIDs != null)
             foreach(int tagId in productDto.TagIDs)
             {
                 Tag tag = tags.Read(tagId);
-                product.Tags.Add(tag); 
+                if(tag != null && tag.TagId != -1)
+                    product.Tags.Add(tag); 
             }
             product.PhotosURL1 = productDto.PhotosURL1;
             product.PhotosURL2 = productDto.PhotosURL2;
             product.PhotosURL3 = productDto.PhotosURL3;
             product.AvailableQuantity = productDto.AvailableQuantity;
             product.Variants = new List<Variant>();
-            foreach(VariantDto variantDto in productDto.Variants)
+            if (productDto.Variants != null)
+            foreach (VariantDto variantDto in productDto.Variants)
             {
                 product.Variants.Add(new Variant
                 {
@@ -54,7 +57,6 @@ namespace EcommerceApplication.Controllers.Products
                 });
             }
             product.Statistics = new Statistics();
-
             if (products.Create(product))
             {
                 return Ok("Successfully created.");
@@ -67,22 +69,43 @@ namespace EcommerceApplication.Controllers.Products
         [HttpGet("/product/{productId}")]
         public IActionResult GetProduct(int productId)
         {
-            ReadProductDto product = products.Read(productId);
-            if(product == null || product.ProductId == -1)
+            Product product = products.Read(productId);
+            ReadProductDto productDto = new ReadProductDto(product);
+
+            if (product == null || product.ProductId == -1)
             {
                 return NotFound();
             }
-            return Ok(product);
+
+            return Ok(productDto);
         }
 
         [HttpPut("/product/update")]
-        public IActionResult UpdateProduct(Product product)
+        public IActionResult UpdateProduct(CreateProductDto productDto)
         {
-            if(products.Update(product))
+            Product product = products.Read(productDto.ProductId);
+            if(product == null) return NotFound();
+            product.Name = productDto.Name;
+            product.Description = productDto.Description;
+            product.Price = productDto.Price;
+            product.Category = category.Read(productDto.CategoryId);
+            if(product.Tags != null) product.Tags.Clear();
+            product.Tags = new List<Tag>();
+            foreach(int tagId in productDto.TagIDs)
             {
-                return Ok("Update successfull.");
+                try
+                {
+                    product.Tags.Add(tags.Read(tagId));
+                }
+                catch { }
             }
-            return BadRequest("Failed to update product");
+            product.PhotosURL1 = productDto.PhotosURL1;
+            product.PhotosURL2 = productDto.PhotosURL2;
+            product.PhotosURL3 = productDto.PhotosURL3;
+            product.AvailableQuantity = productDto.AvailableQuantity;
+
+            if(products.Update(product)) return Ok("Update successfull.");
+            return BadRequest("Failed to update");
         }
 
         [HttpDelete("/product/delete")]
