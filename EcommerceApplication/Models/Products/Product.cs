@@ -12,7 +12,7 @@ namespace EcommerceApplication.Models.Products
         public float Price { get; set; }
         public DateTime Created { get; set; }
         public Category ? Category { get; set; }
-        public ICollection<Tag> ? Tags { get; set; }
+        public ICollection<ProductTag> ? Tags { get; set; }
         public string? PhotosURL1 { get; set; }
         public string? PhotosURL2 { get; set; }
         public string? PhotosURL3 { get; set; }

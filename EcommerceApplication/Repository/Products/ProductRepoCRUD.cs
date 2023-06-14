@@ -57,5 +57,9 @@ namespace EcommerceApplication.Repository.Products
                 return false;
             }
         }
+        public void DeleteTags(int productId)
+        {
+            //List<ProductTag> tags = context.ProductTags.Where(pt => pt.Pro)
+        }
     }
 }

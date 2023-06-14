@@ -9,5 +9,6 @@ namespace EcommerceApplication.IRepository.Products
         public Product Read(int productId);
         public bool Update(Product Product);
         public bool Delete(int productId);
+        public void DeleteTags(int productId);
     }
 }

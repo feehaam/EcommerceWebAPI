@@ -31,7 +31,7 @@ namespace EcommerceApplication.DTO.Products
             Created = product.Created;
             Category = new ReadCategoryDto(product.Category);
             TagsS = new List<string>();
-            foreach(Tag tag in product.Tags)
+            foreach(ProductTag tag in product.Tags)
             {
                 TagsS.Add(tag.Title);
             }

@@ -247,6 +247,28 @@ namespace EcommerceApplication.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("EcommerceApplication.Models.Products.ProductTag", b =>
+                {
+                    b.Property<int>("ProductTagId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductTagId"));
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProductTagId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductTags");
+                });
+
             modelBuilder.Entity("EcommerceApplication.Models.Products.Review", b =>
                 {
                     b.Property<int>("ReviewId")
@@ -320,17 +342,12 @@ namespace EcommerceApplication.Migrations
                     b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TagId");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("Tags");
                 });
@@ -541,6 +558,17 @@ namespace EcommerceApplication.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("EcommerceApplication.Models.Products.ProductTag", b =>
+                {
+                    b.HasOne("EcommerceApplication.Models.Products.Product", "Product")
+                        .WithMany("Tags")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("EcommerceApplication.Models.Products.Review", b =>
                 {
                     b.HasOne("EcommerceApplication.Models.Products.Statistics", "Statistics")
@@ -568,10 +596,6 @@ namespace EcommerceApplication.Migrations
                     b.HasOne("EcommerceApplication.Models.Products.Category", null)
                         .WithMany("Tags")
                         .HasForeignKey("CategoryId");
-
-                    b.HasOne("EcommerceApplication.Models.Products.Product", null)
-                        .WithMany("Tags")
-                        .HasForeignKey("ProductId");
                 });
 
             modelBuilder.Entity("EcommerceApplication.Models.Products.Variant", b =>

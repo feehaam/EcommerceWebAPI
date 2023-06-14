@@ -21,6 +21,7 @@ namespace EcommerceApplication.DBContext
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Statistics> Statistics { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<ProductTag> ProductTags { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Address> Addresses { get; set; }
@@ -90,6 +91,11 @@ namespace EcommerceApplication.DBContext
                 .HasOne(vari => vari.Product)
                 .WithMany(product => product.Variants)
                 .HasForeignKey(variant => variant.ProductId);
+            modelBuilder.Entity<Product>()
+                .HasMany(product => product.Tags)
+                .WithOne(pt => pt.Product)
+                .HasForeignKey(pt => pt.ProductId);
+
 
 
             // Order relations

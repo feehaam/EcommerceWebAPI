@@ -33,13 +33,17 @@ namespace EcommerceApplication.Controllers.Products
             product.Price = productDto.Price;
             product.Created = DateTime.Now;
             product.Category = category.Read(productDto.CategoryId);
-            product.Tags = new List<Tag>();
+            product.Tags = new List<ProductTag>();
             if(productDto.TagIDs != null)
             foreach(int tagId in productDto.TagIDs)
             {
                 Tag tag = tags.Read(tagId);
-                if(tag != null && tag.TagId != -1)
-                    product.Tags.Add(tag); 
+                if(tag != null && tag.TagId != -1 && tag.Title != null)
+                    {
+                        ProductTag pt = new ProductTag();
+                        pt.Title = tag.Title;
+                        product.Tags.Add(pt);
+                    }
             }
             product.PhotosURL1 = productDto.PhotosURL1;
             product.PhotosURL2 = productDto.PhotosURL2;
@@ -89,13 +93,22 @@ namespace EcommerceApplication.Controllers.Products
             product.Description = productDto.Description;
             product.Price = productDto.Price;
             product.Category = category.Read(productDto.CategoryId);
-            if(product.Tags != null) product.Tags.Clear();
-            product.Tags = new List<Tag>();
+            if (product.Tags != null)
+            {
+                product.Tags.Clear();
+                
+            }
+            product.Tags = new List<ProductTag>();
             foreach(int tagId in productDto.TagIDs)
             {
                 try
                 {
-                    product.Tags.Add(tags.Read(tagId));
+                    Tag tag = tags.Read(tagId);
+                    if (tag != null && tag.TagId != -1) {
+                        ProductTag pt = new ProductTag();
+                        pt.Title = tag.Title;
+                        product.Tags.Add(pt);
+                    }
                 }
                 catch { }
             }
