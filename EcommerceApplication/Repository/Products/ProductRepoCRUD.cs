@@ -22,8 +22,14 @@ namespace EcommerceApplication.Repository.Products
 
         public bool Delete(int productId)
         {
-            context.Remove(Read(productId));
-            return context.SaveChanges() > 0 ? true : false;
+            try
+            {
+                context.Remove(Read(productId));
+                return context.SaveChanges() > 0 ? true : false;
+            }
+            catch { 
+                return false;
+            }
         }
 
         public Product Read(int productId)
