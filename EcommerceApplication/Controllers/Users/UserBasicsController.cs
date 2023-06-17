@@ -41,6 +41,18 @@ namespace EcommerceApplication.Controllers.Users
                 return StatusCode(500, "An unexpected server error occurred.");
             }
         }
+        [HttpGet("/user/username/{id}")]
+        public IActionResult GetUsername(int id)
+        {
+            try
+            {
+                return Ok(_repo.GetUserName(id));
+            }
+            catch
+            {
+                return StatusCode(500, "An unexpected server error occurred.");
+            }
+        }
         [HttpGet("/user/exist/{email}")]
         public IActionResult GetUserByEmail(string email)
         {

@@ -24,7 +24,7 @@ namespace EcommerceApplication.Controllers.Products
             }
             else return Ok(statistics);
         }
-        [HttpGet("/statistics/increaseFav/{productId}")]
+        [HttpPost("/statistics/increaseFav/{productId}")]
         public IActionResult Inc(int productId)
         {
             int fav = stats.IncreaseFavorite(productId);
@@ -34,7 +34,7 @@ namespace EcommerceApplication.Controllers.Products
             }
             else return Ok("Done. New favorite count: "+fav);
         }
-        [HttpGet("/statistics/decreaseFav/{productId}")]
+        [HttpDelete("/statistics/decreaseFav/{productId}")]
         public IActionResult Dec(int productId)
         {
             int fav = stats.DecreaseFavorite(productId);

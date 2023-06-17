@@ -28,5 +28,17 @@ namespace EcommerceApplication.Repository.Users
             var user = _context.Users.FirstOrDefault(user => user.Email.Equals(email));
             return user == null ? false : true;
         }
+        public string GetUserName(int userId)
+        {
+            try
+            {
+                var user = _context.Users.FirstOrDefault(user => user.UserId == userId);
+                return user.UserName;
+            }
+            catch
+            {
+                return "Annonymous";
+            }
+        }
     }
 }

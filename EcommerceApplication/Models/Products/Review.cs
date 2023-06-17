@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EcommerceApplication.DTO.Products;
+using EcommerceApplication.IRepository.Users;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace EcommerceApplication.Models.Products
 {
@@ -14,6 +17,7 @@ namespace EcommerceApplication.Models.Products
 
         // Parent reference
         public int StatisticsId { get; set; }
+        [JsonIgnore]
         public virtual Statistics? Statistics { get; set; }
     }
 }
