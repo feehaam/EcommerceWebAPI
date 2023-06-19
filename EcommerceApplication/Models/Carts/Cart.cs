@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using EcommerceApplication.Models.Users;
 
 namespace EcommerceApplication.Models.Carts
@@ -10,6 +11,7 @@ namespace EcommerceApplication.Models.Carts
         public ICollection<CartItems> ? Products { get; set; }
         // Parent reference
         public int UserId { get; set; }
+        [JsonIgnore]
         public virtual User ? User { get; set; }
     }
 }

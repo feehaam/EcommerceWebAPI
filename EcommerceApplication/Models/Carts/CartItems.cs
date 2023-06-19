@@ -24,6 +24,10 @@ namespace EcommerceApplication.Models.Carts
             Quantity = quantity;
         }
 
+        public void SetQuantity(int quantity)
+        {
+            Quantity = quantity;
+        }
         public void IncreaseQuantity(int quantity)
         {
             Quantity += quantity;

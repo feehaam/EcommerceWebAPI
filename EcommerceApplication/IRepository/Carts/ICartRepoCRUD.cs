@@ -5,9 +5,9 @@ namespace EcommerceApplication.IRepository.Carts
 {
     public interface ICartRepoCRUD
     {
-        public bool AddProduct(int UserId, Product Product);
+        public bool AddProduct(int UserId, int ProductId, int Quantity);
         public Cart ReadCart(int UserId);
-        public bool UpdateProduct(int UserId, int productId, int quantity);
-        public bool DeleteProduct(int UserId, int productId);
+        public bool UpdateProduct(int UserId, int ProductId, int Quantity);
+        public bool DeleteProduct(int UserId, int ProductId);
     }
 }
