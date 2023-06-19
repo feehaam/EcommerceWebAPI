@@ -10,11 +10,11 @@ namespace EcommerceApplication.IRepository.Products
         public ICollection<Product> GetProductsByTag(string TagName);
         public ICollection<Product> ProductFilter
             (
-                string CategoryId,
+                int CategoryId,
                 string Tag1, string Tag2, string Tag3, string Tag4, string Tag5,
-                string PriceFrom, 
-                string PriceTo,
-                string AvailableQuantity,
+                double PriceFrom, 
+                double PriceTo,
+                int AvailableQuantity,
                 string VariationTitle,
                 double MinReviewScore,
                 double MaxReviewScore,
