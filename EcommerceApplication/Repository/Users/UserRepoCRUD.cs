@@ -1,5 +1,6 @@
 ﻿using EcommerceApplication.DBContext;
 using EcommerceApplication.IRepository.Users;
+using EcommerceApplication.Models.Carts;
 using EcommerceApplication.Models.Users;
 
 namespace EcommerceApplication.Repository.Users
@@ -16,6 +17,7 @@ namespace EcommerceApplication.Repository.Users
         {
             try
             {
+                User.Cart = new Cart();
                 _context.Users.Add(User);
                 return _context.SaveChanges() > 0 ? true : false;
             }

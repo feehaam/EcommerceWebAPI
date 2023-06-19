@@ -20,41 +20,22 @@ namespace EcommerceApplication.Repository.Carts
 
         public bool AddProduct(int UserId, Product Product)
         {
-            if (_user == null)
-            {
-                _user = _userRepoCRUD.Read(UserId);
-            }
-            if (_user != null && Product != null)
-            {
-                if (_user.Cart == null)
-                {
-                    _user.Cart = new Cart();
-                }
-                if (_user.Cart.Products == null)
-                {
-                    _user.Cart.Products = new List<CartItems>();
-                }
-                CartItems item = new CartItems();
-                item.Product = Product;
-                item.Quantity = 1;
-                _user.Cart.Products.Add(new CartItems());
-            }
-            return _context.SaveChanges() > 0 ? true : false;
+            throw new NotImplementedException();
         }
 
-        public bool DeleteProduct(int UserId, Product Product)
+        public bool DeleteProduct(int UserId, int productId)
         {
-            return true;
+            throw new NotImplementedException();
         }
 
         public Cart ReadCart(int UserId)
         {
-            return null;
+            throw new NotImplementedException();
         }
 
-        public bool UpdateProduct(int UserId, Product Product, int quantity)
+        public bool UpdateProduct(int UserId, int productId, int quantity)
         {
-            return true;
+            throw new NotImplementedException();
         }
     }
 }
