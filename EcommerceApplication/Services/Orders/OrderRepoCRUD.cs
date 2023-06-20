@@ -39,9 +39,19 @@ namespace EcommerceApplication.Repository.Orders
             }
         }
 
-        public void Delete(int OrdersId)
+        public bool Delete(int OrderId)
         {
-            throw new NotImplementedException();
+            Order Order = _context.Orders
+                .Include(o => o.Products)
+                .Include(o => o.PaymentStatus)
+                .Include(o => o.DeliveryAddress)
+                .FirstOrDefault(o => o.OrderId == OrderId);
+            if (Order == null)
+            {
+                return false;
+            }
+            _context.Remove(Order);
+            return _context.SaveChanges() > 0 ? true : false;
         }
 
         public Order Read(int OrderId)
@@ -57,11 +67,6 @@ namespace EcommerceApplication.Repository.Orders
                 return Order;
             }
             return Order;
-        }
-
-        public Order Update(Order Order)
-        {
-            throw new NotImplementedException();
         }
     }
 }

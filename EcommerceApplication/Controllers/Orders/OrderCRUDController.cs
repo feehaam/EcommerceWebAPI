@@ -92,7 +92,7 @@ namespace EcommerceApplication.Controllers.Orders
             }
         }
 
-        [HttpGet("/order/read{orderId}")]
+        [HttpGet("/order/{orderId}")]
         public IActionResult ReadOrder(int orderId)
         {
             Order Order = _orders.Read(orderId);
@@ -126,6 +126,20 @@ namespace EcommerceApplication.Controllers.Orders
             Result.DeliveryStatus = Order.DeliveryStatus;
 
             return Ok(Result);
+        }
+
+        [HttpDelete("/order/delete")]
+        public IActionResult Delete(int orderId)
+        {
+            bool done = _orders.Delete(orderId);
+            if (done)
+            {
+                return BadRequest("Failed to delete order no. "+orderId);
+            }
+            else
+            {
+                return Ok("Order no. "+orderId+" deleted.");
+            }
         }
     }
 }
