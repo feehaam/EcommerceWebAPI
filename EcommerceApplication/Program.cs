@@ -1,8 +1,10 @@
 using EcommerceApplication.DBContext;
 using EcommerceApplication.IRepository.Carts;
+using EcommerceApplication.IRepository.Orders;
 using EcommerceApplication.IRepository.Products;
 using EcommerceApplication.IRepository.Users;
 using EcommerceApplication.Repository.Carts;
+using EcommerceApplication.Repository.Orders;
 using EcommerceApplication.Repository.Products;
 using EcommerceApplication.Repository.Users;
 using Microsoft.EntityFrameworkCore;
@@ -25,13 +27,20 @@ builder.Services.AddDbContext<DataContext>(options =>
 // Adding interfaces
 builder.Services.AddScoped<IUserRepoBasics, UserRepoBasics>();
 builder.Services.AddScoped<IUserRepoCRUD, UserRepoCRUD>();
+
 builder.Services.AddScoped<ICategoryCRUD, CategoryCRUD>();
 builder.Services.AddScoped<ITagCRUD, TagCRUD>();
+
 builder.Services.AddScoped<ICartRepoCRUD, CartRepoCRUD>();
+
 builder.Services.AddScoped<IProductRepoCRUD, ProductRepoCRUD>();
 builder.Services.AddScoped<IProductRepoStatistics, ProductRepoStatistics>();
 builder.Services.AddScoped<IProductRepoReviews, ProductRepoReviews>();
-builder.Services.AddScoped<IProductRepoLists, ProductRepoLists>();  
+builder.Services.AddScoped<IProductRepoLists, ProductRepoLists>();
+
+builder.Services.AddScoped<IOrderRepoCRUD, OrderRepoCRUD>();
+builder.Services.AddScoped<IOrderRepoLists, OrderRepoLists>();
+builder.Services.AddScoped<IOrderRepoPayments, OrderRepoPayments>();
 
 
 var app = builder.Build();

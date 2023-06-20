@@ -36,6 +36,16 @@ namespace EcommerceApplication.Repository.Products
             }
         }
 
+        public int GetAvaiableQuantity(int ProductId)
+        {
+            Product Product = context.Products.FirstOrDefault(p => p.ProductId == ProductId);
+            if (Product == null)
+            {
+                return -1;
+            }
+            else return Product.AvailableQuantity;
+        }
+
         public int IncreaseFavorite(int ProductId)
         {
             try

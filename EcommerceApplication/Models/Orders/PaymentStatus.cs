@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace EcommerceApplication.Models.Orders
 {
@@ -11,6 +12,7 @@ namespace EcommerceApplication.Models.Orders
 
         // Parent reference
         public int OrderId { get; set; }
+        [JsonIgnore]
         public virtual Order ? Order { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using EcommerceApplication.IRepository.Users;
 using EcommerceApplication.Models.Carts;
 using EcommerceApplication.Models.Users;
+using Microsoft.EntityFrameworkCore;
 
 namespace EcommerceApplication.Repository.Users
 {
@@ -29,7 +30,9 @@ namespace EcommerceApplication.Repository.Users
         {
             try
             {
-                var FoundUser = _context.Users.SingleOrDefault(u => u.UserId == UserId);
+                var FoundUser = _context.Users
+                    .Include(u => u.Orders)
+                    .FirstOrDefault(u => u.UserId == UserId);
                 return FoundUser;
             }
             catch

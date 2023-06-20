@@ -1,5 +1,6 @@
 ﻿using EcommerceApplication.Models.Users;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace EcommerceApplication.Models.Orders
 {
@@ -20,6 +21,7 @@ namespace EcommerceApplication.Models.Orders
         public string ? DeliveryStatus { get; set; }
 
         // Parent reference 
+        [JsonIgnore]
         public virtual User ? User { get; set; }
         public int UserId { get; set; }
     }
