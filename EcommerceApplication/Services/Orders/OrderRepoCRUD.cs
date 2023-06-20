@@ -61,6 +61,7 @@ namespace EcommerceApplication.Repository.Orders
                     .ThenInclude(oi => oi.Product)
                 .Include(o => o.DeliveryAddress)
                 .Include(o => o.PaymentStatus)
+                    .ThenInclude(p => p.Payments)
                 .FirstOrDefault(o => o.OrderId == OrderId);
             if (Order == null)
             {

@@ -40,7 +40,7 @@ builder.Services.AddScoped<IProductRepoLists, ProductRepoLists>();
 
 builder.Services.AddScoped<IOrderRepoCRUD, OrderRepoCRUD>();
 builder.Services.AddScoped<IOrderRepoLists, OrderRepoLists>();
-builder.Services.AddScoped<IOrderRepoPayments, OrderRepoPayments>();
+builder.Services.AddScoped<IOrderRepoUpdate, OrderRepoUpdate>();
 
 
 var app = builder.Build();

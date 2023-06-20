@@ -2,10 +2,10 @@
 
 namespace EcommerceApplication.IRepository.Orders
 {
-    public interface IOrderRepoPayments
+    public interface IOrderRepoUpdate
     {
         public PaymentStatus ReadPaymentStatus(int OrderId);
-        public bool AddPayment(Order Order, Payment Payment);
-        public bool UpdatePayment(Order Order, Payment Payment);
+        public bool AddPayment(int OrderId, Payment Payment);
+        public bool UpdateDeliveryStatus(int OrderId, string status);
     }
 }
