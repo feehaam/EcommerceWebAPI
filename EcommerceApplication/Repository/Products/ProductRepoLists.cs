@@ -100,6 +100,9 @@ namespace EcommerceApplication.Repository.Products
                     && p.Statistics.SellCount >= MinSellCount
                     && p.Statistics.Favorites >= MinFavoriteCount);
 
+            filter = filter.Where(p => p.HasVariant(VariationTitle));
+            filter = filter.Where(p => p.HasTag(Tag1) || p.HasTag(Tag2) || p.HasTag(Tag3) || p.HasTag(Tag4) || p.HasTag(Tag5));
+
             if (SortOldToNew) filter = filter.OrderBy(p => p.Created); 
             else if (SortPriceHighToLow) filter = filter.OrderByDescending(p => p.Price); 
             else if (SortPriceLowToHigh) filter = filter.OrderBy(p => p.Price); 
@@ -108,9 +111,6 @@ namespace EcommerceApplication.Repository.Products
             else if (SortReviewsHighToLow) filter = filter.OrderByDescending(p => p.Statistics.Reviews.Count); 
             else if (SortReviewsLowToHigh) filter = filter.OrderBy(p => p.Statistics.Reviews.Count);
             else filter = filter.OrderByDescending(p => p.Created);
-
-            filter = filter.Where(p => p.HasVariant(VariationTitle));
-            filter = filter.Where(p => p.HasTag(Tag1) || p.HasTag(Tag2) || p.HasTag(Tag3) || p.HasTag(Tag4) || p.HasTag(Tag5));
 
             ICollection<Product> products = filter
                 .Skip(StartIndex)
