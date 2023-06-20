@@ -44,9 +44,19 @@ namespace EcommerceApplication.Repository.Orders
             throw new NotImplementedException();
         }
 
-        public Order Read(int OrdersId)
+        public Order Read(int OrderId)
         {
-            throw new NotImplementedException();
+            Order Order = _context.Orders
+                .Include(o => o.Products)
+                    .ThenInclude(oi => oi.Product)
+                .Include(o => o.DeliveryAddress)
+                .Include(o => o.PaymentStatus)
+                .FirstOrDefault(o => o.OrderId == OrderId);
+            if (Order == null)
+            {
+                return Order;
+            }
+            return Order;
         }
 
         public Order Update(Order Order)

@@ -28,7 +28,7 @@ namespace EcommerceApplication.Controllers.Orders
             _users = users;
         }
 
-        [HttpPost("/orders/create")]
+        [HttpPost("/order/create")]
         public IActionResult CreateOrder(CreateOrderDto orderDto)
         {
             User User = _users.Read(orderDto.UserId);
@@ -90,6 +90,42 @@ namespace EcommerceApplication.Controllers.Orders
             {
                 return BadRequest("Failed to place the order.");
             }
+        }
+
+        [HttpGet("/order/read{orderId}")]
+        public IActionResult ReadOrder(int orderId)
+        {
+            Order Order = _orders.Read(orderId);
+            if(Order == null)
+            {
+                return NotFound();
+            }
+            ReadOrderDto Result = new ReadOrderDto();
+            Result.UserId = Order.UserId;
+            Result.OrderId = Order.OrderId;
+            Result.PlacementTime = Order.PlacementTime;
+            Result.DeliveryTime = Order.DeliveryTime == DateTime.MinValue ? "N/A" : Order.DeliveryTime.ToString();
+            Result.Products = new List<ReadOrderItemDto>();
+            foreach (OrderItems oi in Order.Products)
+            {
+                ReadOrderItemDto oid = new ReadOrderItemDto();
+                oid.ProductId = oi.Product.ProductId;
+                oid.ProductName = oi.Product.Name;
+                Photos photos = new Photos(oi.Product.PhotosURL1, oi.Product.PhotosURL2, oi.Product.PhotosURL3);
+                oid.Photos = photos;
+
+                Result.Products.Add(oid);
+            }
+            Result.ProductsCost = Order.ProductsCost;
+            Result.VoucherReduction = Order.VoucherReduction;
+            Result.DeliveryCharge = Order.DeliveryCharge;
+            Result.Total = Order.Total;
+            Result.DeliveryAddress = Order.DeliveryAddress;
+            Result.CustomerPhoneNo = Order.CustomerPhoneNo;
+            Result.PaymentStatus = Order.PaymentStatus;
+            Result.DeliveryStatus = Order.DeliveryStatus;
+
+            return Ok(Result);
         }
     }
 }
