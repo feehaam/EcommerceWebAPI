@@ -8,6 +8,6 @@ namespace EcommerceApplication.IRepository.Users
         public User ? Read(int UserId);
         public User? Read(string email);
         public bool Update(User User);
-        public bool Delete(User User);
+        public bool Delete(int UserId);
     }
 }

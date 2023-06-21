@@ -1,6 +1,7 @@
 ﻿using EcommerceApplication.DBContext;
 using EcommerceApplication.IRepository.Users;
 using EcommerceApplication.Models.Users;
+using Microsoft.EntityFrameworkCore;
 
 namespace EcommerceApplication.Repository.Users
 {
@@ -13,12 +14,21 @@ namespace EcommerceApplication.Repository.Users
         }
         public ICollection<User> GetAllUsers()
         {
-            return _context.Users.ToList();
+            return _context.Users
+                .Include(u => u.Orders)
+                .Include(u => u.Orders)
+                    .ThenInclude(o => o.PaymentStatus)
+                        .ThenInclude(ps => ps.Payments)
+                .Include(u => u.Orders)
+                    .ThenInclude(o => o.DeliveryAddress)
+                .Include(u => u.Cart)
+                .Include(u => u.Address)
+                .Include(u => u.Contacts)
+                .ToList();
         }
 
         public bool IfExists(int userId)
         {
-            Console.WriteLine("I'm here!!!!!!!!!!!!!!!!!!!!!!!!!!! finding the user {0}", userId);
             var user = _context.Users.FirstOrDefault(user => user.UserId == userId);
             return user == null ? false : true;
         }

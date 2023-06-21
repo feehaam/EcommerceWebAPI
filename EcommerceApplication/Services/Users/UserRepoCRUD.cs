@@ -32,6 +32,14 @@ namespace EcommerceApplication.Repository.Users
             {
                 var FoundUser = _context.Users
                     .Include(u => u.Orders)
+                    .Include(u => u.Orders)
+                        .ThenInclude(o => o.PaymentStatus)
+                            .ThenInclude(ps => ps.Payments)
+                    .Include(u => u.Orders)
+                        .ThenInclude(o => o.DeliveryAddress)
+                    .Include(u => u.Cart)
+                    .Include(u => u.Address)
+                    .Include(u => u.Contacts)
                     .FirstOrDefault(u => u.UserId == UserId);
                 return FoundUser;
             }
@@ -44,8 +52,18 @@ namespace EcommerceApplication.Repository.Users
         {
             try
             {
-                var user = _context.Users.FirstOrDefault(user => user.Email.Equals(email));
-                return user;
+                var FoundUser = _context.Users
+                    .Include(u => u.Orders)
+                    .Include(u => u.Orders)
+                        .ThenInclude(o => o.PaymentStatus)
+                            .ThenInclude(ps => ps.Payments)
+                    .Include(u => u.Orders)
+                        .ThenInclude(o => o.DeliveryAddress)
+                    .Include(u => u.Cart)
+                    .Include(u => u.Address)
+                    .Include(u => u.Contacts)
+                    .FirstOrDefault(user => user.Email.Equals(email));
+                return FoundUser;
             }
             catch
             {
@@ -60,17 +78,28 @@ namespace EcommerceApplication.Repository.Users
                 _context.Users.Update(User);
                 return _context.SaveChanges() > 0 ? true : false;
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 return false;
             }
         }
-        public bool Delete(User User)
+        public bool Delete(int UserId)
         {
             try
             {
-                _context.Users.Remove(User);
-                return _context.SaveChanges() > 0 ? true : false;
+                _context.Users.Remove(Read(UserId));
+                if (_context.SaveChanges() > 0)
+                {
+                    Address address = _context.Addresses.FirstOrDefault(a => a.AddressId == UserId);
+                    if (address != null)
+                    {
+                        _context.Addresses.Remove(address);
+                        _context.SaveChanges();
+                    }
+                    return true;
+                }
+                else return false;
             }
             catch
             {

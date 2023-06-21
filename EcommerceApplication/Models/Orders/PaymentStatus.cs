@@ -7,7 +7,7 @@ namespace EcommerceApplication.Models.Orders
     {
         [Key]
         public int PaymentStatusId { get; set; }
-        public byte CompletedPayment { get; set; }
+        public double CompletedPayment { get; set; }
         public ICollection<Payment> ? Payments { get; set; }
 
         // Parent reference

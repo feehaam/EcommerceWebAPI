@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace EcommerceApplication.Models.Users
 {
@@ -12,6 +13,7 @@ namespace EcommerceApplication.Models.Users
 
         // Parent reference
         public int UserId { get; set; }
+        [JsonIgnore]
         public virtual User? User { get; set; }
     }
 }

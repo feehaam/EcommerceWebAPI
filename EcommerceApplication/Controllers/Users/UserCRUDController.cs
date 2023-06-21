@@ -1,4 +1,7 @@
-﻿using EcommerceApplication.IRepository.Users;
+﻿using EcommerceApplication.DTO.Users;
+using EcommerceApplication.IRepository.Users;
+using EcommerceApplication.Models.Carts;
+using EcommerceApplication.Models.Orders;
 using EcommerceApplication.Models.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,18 +21,24 @@ namespace EcommerceApplication.Controllers.Users
 
         }
         [HttpPost("/user/create")]
-        public IActionResult CreateUser(User user)
+        public IActionResult CreateUser(CreateUserDto userDto)
         {
-            if(user == null)
+            if(userDto == null)
             {
                 return BadRequest("User info is invalid.");
             }
+
+            User user = new User();
+            user.Address = userDto.Address;
+            user.Password = userDto.Password;
+            user.Email = userDto.Email;
+            user.UserName = userDto.FirstName + " " + userDto.LastName;
+            user.Orders = new List<Order>();
+            user.Cart = new Cart();
+            user.Contacts = userDto.Contacts;
+
             try
             {
-                if (_repoBasics.IfExists(user.UserId))
-                {
-                    return Forbid("User already exists with same ID.");
-                }
                 if (_repoBasics.IfExists(user.Email))
                 {
                     return Forbid("User already exists with same email.");
@@ -75,10 +84,20 @@ namespace EcommerceApplication.Controllers.Users
             return Ok(user);
         }
         [HttpPut("/user/update")]
-        public IActionResult UpdateUser(User user)
+        public IActionResult UpdateUser(int UserId, UpdateUserDto userDto)
         {
             try
             {
+                User user = _repoCrud.Read(UserId);
+                if(user == null)
+                {
+                    return NotFound("User with Id " + UserId + " doesn't exist.");
+                }
+                user.Address = userDto.Address;
+                user.Password = userDto.Password;
+                user.UserName = userDto.FirstName + " " + userDto.LastName;
+                user.Contacts = userDto.Contacts;
+
                 bool result = _repoCrud.Update(user);
                 if (result)
                 {
@@ -92,9 +111,9 @@ namespace EcommerceApplication.Controllers.Users
             }
         }
         [HttpDelete("/user/delete")]
-        public IActionResult DeleteUser(User user)
+        public IActionResult DeleteUser(int UserId)
         {
-            bool result = _repoCrud.Delete(user);
+            bool result = _repoCrud.Delete(UserId);
             if (result) return Ok("User deleted");
             else return BadRequest("Failed to delete user");
         }
